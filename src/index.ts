@@ -3,6 +3,7 @@ import userRouter from "./presentation/routers/user-router"
 import mysql from "mysql"
 
 import { CreateUser } from "./domain/use-cases/user/create-user"
+import { GetAllUsers } from "./domain/use-cases/user/get-users"
 import { UserRepositoryImpl } from "./domain/repositories/user-repository"
 import { MysqlUserDataSource } from "./data/data-sources/mysql/mysql-user-data-source"
 
@@ -24,7 +25,8 @@ connection.connect(error => {
     } else {
         console.log('Connected')
         const userMiddleware = userRouter(
-            new CreateUser(new UserRepositoryImpl(new MysqlUserDataSource(connection)))
+            new CreateUser(new UserRepositoryImpl(new MysqlUserDataSource(connection))),
+            new GetAllUsers(new UserRepositoryImpl(new MysqlUserDataSource(connection)))
         )
         server.use(`${prefixV1}/users`, userMiddleware)
         server.listen(PORT, () => {

@@ -17,4 +17,8 @@ export class UserRepositoryImpl implements UserRepository {
     public async findById(id: string): Promise<User> {
         return await this.userDataSource.findById(id)
     }
+
+    public async findAll(): Promise<User> {
+        return await this.userDataSource.findAll()
+    }
 }
